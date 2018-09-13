@@ -6,3 +6,4 @@ We use the Yandex search engine with the "site:" parameter and pars all the page
 The issue of pagination has not yet been resolved.
 Download the file for your system in the working directory
 http://chromedriver.chromium.org/downloads
+Log in to your Yandex mail to remove restrictions on the number of requests.
