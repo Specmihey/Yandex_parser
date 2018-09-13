@@ -31,7 +31,7 @@ import time
 base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A'))
 baseU = base_url+url_site
 
-#=============== Login
+#=============== Login (To circumvent Yandex's restriction on the number of requests)
 browser = webdriver.Chrome('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы\\chromedriver_win32\\chromedriver.exe')
 browser.implicitly_wait(2)
 browser.get('https://www.yandex.ru/')
@@ -50,10 +50,10 @@ amountValues = browser.find_element_by_class_name('serp-adv__found')
 amountValues = amountValues.text
 amountPages = int(re.search(r'\d+', amountValues).group())
 #amountValues.split( )
-#Out[39]: ['Нашлось', '757', 'результатов']
+#Out[39]: ['Нашлось', '98', 'результатов']
 
 #amountValues_v.isnumeric()
-amountPages15 = amountPages/15
+amountPages15 = amountPages/15 #number of results on the page of issue 15, divide
 Pages = int(amountPages15)
 NumberPages = [] # list
 if Pages > 0:
@@ -65,7 +65,7 @@ else:
 baseURL = baseU + '&p='
 PagesAll = []
 for i in NumberPages:
-    PagesAll.append(baseURL+str(i))
+    PagesAll.append(baseURL+str(i)) #All pages of the pagination of the search result
     
 #============================= selenium
 rase = []   
@@ -85,28 +85,9 @@ browser.quit()
 UT = pd.DataFrame()
 UT = pd.concat([title_set,url_set],sort=False,axis=1)
 UT.columns = ['Title','URL']
-UT.to_excel('site.xls', index=False)  
+UT.to_excel('site.xls', index=False)  #Getting an Excel sheet with data
 import winsound
 winsound.MessageBeep()
 
 
 
-#browser.text
-#urlNum = browser.find_elements_by_class_name('organic__url')
-#rase = urlNum[1].get_attribute('href')
-#browser.quit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
