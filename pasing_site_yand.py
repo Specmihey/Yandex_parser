@@ -4,13 +4,13 @@ Created on Wed Sep 12 17:18:14 2018
 Парсинг всех страниц сайта с получением алиасов и title страниц из индекса Яндекс
 @author: @specmihey
 """
-#url_site = 'ваш_сайт'
-url_site = 'https://delfi32.ru'
-emailYandex = 'estetm2014@yandex.ru'
-passYand = 'tr5c7Fg3xP'
+#url_site = 'your_site'
+url_site = 'https://best-deal.su'
+emailYandex = 'Your_email'
+passYand = 'your_password'
 
 import os
-os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') 
+os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') #change directory
 import urllib.request
 import requests
 import re
