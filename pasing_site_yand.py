@@ -4,11 +4,12 @@ Created on Wed Sep 12 17:18:14 2018
 Парсинг всех страниц сайта с получением алиасов и title страниц из индекса Яндекс
 @author: @specmihey
 """
-#url_site = 'your_site'
-url_site = 'https://best-deal.su'
+#==== Login
+url_site = 'https://best-deal.su' #The site is parsing
+# Authorization in the search system Yandex
 emailYandex = 'Your_email'
 passYand = 'your_password'
-
+#=== Downloading libraries
 import os
 os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') #change directory
 import urllib.request
@@ -45,7 +46,7 @@ passS = browser.find_element_by_name('passwd')
 passS.click()
 passS.send_keys(passYand, Keys.ENTER)
 time.sleep(5)
-
+#=== Obtaining the pages of the search
 browser.get(baseU)
 amountValues = browser.find_element_by_class_name('serp-adv__found')
 amountValues = amountValues.text
