@@ -28,10 +28,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time
-base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A'))
+base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A')) #Yandex string with parameters
 baseU = base_url+url_site
 
 #=============== Login (To circumvent Yandex's restriction on the number of requests)
+#There is Your Storage chromedriver.exe
 browser = webdriver.Chrome('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы\\chromedriver_win32\\chromedriver.exe')
 browser.implicitly_wait(2)
 browser.get('https://www.yandex.ru/')
@@ -87,7 +88,7 @@ UT = pd.concat([title_set,url_set],sort=False,axis=1)
 UT.columns = ['Title','URL']
 UT.to_excel('site.xls', index=False)  #Getting an Excel sheet with data
 import winsound
-winsound.MessageBeep()
+winsound.MessageBeep() #bi-beep
 
 
 
