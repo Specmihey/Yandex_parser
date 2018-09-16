@@ -1,24 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Sep 12 17:18:14 2018
-Парсинг всех страниц сайта с получением алиасов и title страниц из индекса Яндекс
+Created on Sun Sep 16 11:45:15 2018
+Парсинг всех страниц сайта с получением алиасов и title страниц из индекса Яндекс V2
 @author: @specmihey
 """
-#==== Login
-url_site = 'https://best-deal.su' #The site is parsing
-# Authorization in the search system Yandex
-emailYandex = 'Your_email'
-passYand = 'your_password'
-#=== Downloading libraries
+url_site = 'http://www.ymc2003.ru/'
+
 import os
-os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') #change directory
+os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') 
 import urllib.request
 import requests
 import re
 import openpyxl
 import csv
-from pandas import ExcelWriter
-from pandas import ExcelFile
 import xlwt
 import pandas as pd
 import numpy as np
@@ -28,68 +22,45 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 import time
-base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A')) #Yandex string with parameters
+base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A'))
 baseU = base_url+url_site
-
-#=============== Login (To circumvent Yandex's restriction on the number of requests)
-#There is Your Storage chromedriver.exe
+#=============== Here is your file chromedriver.exe
 browser = webdriver.Chrome('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы\\chromedriver_win32\\chromedriver.exe')
 browser.implicitly_wait(2)
-browser.get('https://www.yandex.ru/')
-enterYandex = browser.find_element_by_link_text('Войти в почту')
-enterYandex.click()
-loginYand = browser.find_element_by_name('login')
-loginYand.click()
-loginYand.send_keys(emailYandex)
-passS = browser.find_element_by_name('passwd')
-passS.click()
-passS.send_keys(passYand, Keys.ENTER)
-time.sleep(5)
-#=== Obtaining the pages of the search
+#=== Running the program
 browser.get(baseU)
-amountValues = browser.find_element_by_class_name('serp-adv__found')
-amountValues = amountValues.text
-amountPages = int(re.search(r'\d+', amountValues).group())
-#amountValues.split( )
-#Out[39]: ['Нашлось', '98', 'результатов']
-
-#amountValues_v.isnumeric()
-amountPages15 = amountPages/15 #number of results on the page of issue 15, divide
-Pages = int(amountPages15)
-NumberPages = [] # list
-if Pages > 0:
-    for i in range(0,Pages+1):
-        NumberPages.append(i)
-else:
-    NumberPages = 0
-    
-baseURL = baseU + '&p='
-PagesAll = []
-for i in NumberPages:
-    PagesAll.append(baseURL+str(i)) #All pages of the pagination of the search result
-    
-#============================= selenium
-rase = []   
-titlePages = []   
-for i in PagesAll:
-    browser.get(i)
+page_count = 0
+url_pages = []   
+titlePages = [] 
+while True:
+    page_count += 1
     time.sleep(1)
     urlNum = browser.find_elements_by_class_name('organic__url') #len(urlNum)
     titleP = browser.find_elements_by_class_name('organic__url-text') #len(titleP)
     for p in urlNum:
-        rase.append(p.get_attribute('href'))
+        url_pages.append(p.get_attribute('href'))
     for l in titleP:
-        titlePages.append(l.text)    
-url_set = pd.DataFrame(rase)        
+        titlePages.append(l.text)
+    try:
+        # Clicking on "2" on pagination on first iteration, "3" on second...
+        browser.find_element_by_link_text('дальше').click()
+    except NoSuchElementException:
+        # Stop loop if no more page available
+        break
+
+# ---- Write the data to the file 'site.xls'
+url_set = pd.DataFrame(url_pages)        
 title_set = pd.DataFrame(titlePages)
 browser.quit() 
 UT = pd.DataFrame()
 UT = pd.concat([title_set,url_set],sort=False,axis=1)
 UT.columns = ['Title','URL']
-UT.to_excel('site.xls', index=False)  #Getting an Excel sheet with data
+UT.to_excel('site.xls', index=False)  
 import winsound
-winsound.MessageBeep() #bi-beep
+winsound.MessageBeep()   
+
 
 
 
