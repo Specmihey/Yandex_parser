@@ -6,7 +6,10 @@ Created on Sun Sep 16 11:45:15 2018
 @author: @specmihey
 """
 url_site = 'https://best-deal.su/' #The test site
-
+base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A')) 
+#Here we use the extended search string
+#Change the line operators for your search
+#=========== Downloading libraries
 import os
 os.chdir('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы') #Your working directory
 import urllib.request
@@ -25,7 +28,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
-base_url = (('https://www.yandex.ru/search/?lr=19&text=site%3A')) #Here we use the extended search string
 baseU = base_url+url_site
 #=============== Here is your file chromedriver.exe
 browser = webdriver.Chrome('C:\\Users\\user\\Desktop\\Python\\Парсинг сайта алиасы\\chromedriver_win32\\chromedriver.exe')
